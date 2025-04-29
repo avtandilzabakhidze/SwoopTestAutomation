@@ -70,6 +70,8 @@ public class CoreFunctionalityTests extends BaseTest {
     @Test
     public void numberOfGuestsTest(){
         homeSteps.findNavbarElement(NavElement.FOOD);
-        foodSteps.chooseNumberOfGuests(NumberOfGuest.ELEVEN_TO_FIFTEEN);
+        foodSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
+        List<Deal> searchResults = searchSteps.getSearchResults();
+        searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
     }
 }
