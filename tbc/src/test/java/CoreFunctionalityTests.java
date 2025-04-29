@@ -86,4 +86,12 @@ public class CoreFunctionalityTests extends BaseTest {
         Deal deal = searchSteps.grabDetails();
         System.out.println(deal);
     }
+
+    @Test
+    public void filterPersistenceTest(){
+        categoriesSteps.clickCategoriesButton()
+                .findCategoryByName(CategoryName.PETS)
+                .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
+
+    }
 }
