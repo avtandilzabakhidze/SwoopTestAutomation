@@ -1,7 +1,4 @@
-import ge.tbcitacademy.data.enums.CategoryName;
-import ge.tbcitacademy.data.enums.NavElement;
-import ge.tbcitacademy.data.enums.NumberOfGuest;
-import ge.tbcitacademy.data.enums.PetSubCategory;
+import ge.tbcitacademy.data.enums.*;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.steps.CategorySteps;
 import ge.tbcitacademy.steps.FoodSteps;
@@ -52,12 +49,22 @@ public class CoreFunctionalityTests extends BaseTest {
     @Test
     public void categoryTest() {
         categoriesSteps.clickCategoriesButton()
-                .findCategoryByName(CategoryName.PETS)
-                .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE)
+                .findCategoryByName(CategoryName.VACATION)
+                .clickSubCategoryByName(RestSubCategory.KAKHETI)
                 .validateUrlContainsCategory();
 
         List<Deal> page1Deals = searchSteps.getSearchResults();
-        System.out.println(page1Deals);
+        searchSteps.validateResultsNotEmpty(page1Deals);
+
+        searchSteps.setPageNumber("2");
+        List<Deal> page2Deals = searchSteps.getSearchResults();
+        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals)
+                .validateResultsNotEmpty(page2Deals);
+
+        searchSteps.setPageNumber("3");
+        List<Deal> page3Deals = searchSteps.getSearchResults();
+        searchSteps.validateDealsAreDifferent(page2Deals, page3Deals)
+                .validateResultsNotEmpty(page3Deals);
     }
 
     @Test
