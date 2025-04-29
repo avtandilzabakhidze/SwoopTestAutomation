@@ -5,6 +5,7 @@ public class Constants {
             WINE = "ღვინო",
             RANDOM_WORD = "asldkfj",
             SEARCH = "search",
+            CATEGORY = "category",
             WITHOUT_RESULT = "არჩეული ფილტრით შეთავაზება ვერ მოიძებნა",
             SEARCH_RESULT_SHOULD_NOT_EMPTY = "Search results should not be empty",
             KEYWORD_NOT_FOUND = "Expected keyword not found in deal";
