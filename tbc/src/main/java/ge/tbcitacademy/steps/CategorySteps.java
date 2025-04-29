@@ -33,6 +33,14 @@ public class CategorySteps {
         return this;
     }
 
+    public CategorySteps clickSubCategoryByName(PetSubCategory petSubCategory) {
+        $(By.xpath("//div[@data-testid='categories-dropdown']/following-sibling::div//h4[@weight='regular' and contains(text(),'" + petSubCategory.getValue() + "')]"))
+                .shouldBe(visible)
+                .click();
+        return this;
+    }
+
+
     public CategorySteps validateUrlContainsCategory() {
         webdriver().shouldHave(urlContaining(CATEGORY));
         return this;

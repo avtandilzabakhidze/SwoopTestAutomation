@@ -1,7 +1,9 @@
 package ge.tbcitacademy.steps;
 
+import com.codeborne.selenide.SelenideElement;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.models.Deal;
+import ge.tbcitacademy.pages.ProductDetails;
 import ge.tbcitacademy.pages.SearchResultsPage;
 import org.openqa.selenium.By;
 
@@ -17,6 +19,7 @@ import static org.testng.Assert.assertTrue;
 
 public class SearchSteps {
     SearchResultsPage searchResultsPage = new SearchResultsPage();
+    ProductDetails productDetail = new ProductDetails();
 
     public List<Deal> getSearchResults() {
         return searchResultsPage.searchedProduct.stream()
@@ -28,6 +31,31 @@ public class SearchSteps {
                     return new Deal(title, description, price, sold);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Deal findFirst() {
+        SelenideElement product = searchResultsPage.searchedProduct.first();
+
+        String title = product.find(searchResultsPage.title).getText();
+        String description = product.find(searchResultsPage.description).getText();
+        String price = product.find(searchResultsPage.price).getText();
+        String sold = product.find(searchResultsPage.soldQuantity).getText();
+
+        return new Deal(title, description, price, sold);
+    }
+
+    public SearchSteps openFirst(){
+        searchResultsPage.searchedProduct.first().click();
+        return this;
+    }
+
+    public Deal grabDetails(){
+        String title = productDetail.title.getText();
+        String description =productDetail.description.getText();
+        String price = productDetail.price.getText();
+        String sold = productDetail.soldQuantity.getText();
+
+        return new Deal(title, description, price, sold);
     }
 
     public SearchSteps validateGuestCountInDeals(List<Deal> deals, NumberOfGuest guestRange) {

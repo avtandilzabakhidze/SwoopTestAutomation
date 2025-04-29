@@ -74,4 +74,16 @@ public class CoreFunctionalityTests extends BaseTest {
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
     }
+
+    @Test
+    public void offerDetailsConsistencyTest(){
+        categoriesSteps.clickCategoriesButton()
+                .findCategoryByName(CategoryName.PETS)
+                .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
+        Deal first = searchSteps.findFirst();
+        System.out.println(first);
+        searchSteps.openFirst();
+        Deal deal = searchSteps.grabDetails();
+        System.out.println(deal);
+    }
 }
