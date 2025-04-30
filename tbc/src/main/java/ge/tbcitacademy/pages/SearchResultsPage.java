@@ -16,8 +16,10 @@ public class SearchResultsPage {
             soldQuantity = xpath(".//div[contains(@class,'text-primary_black-100')]"),
             price = xpath(".//h4[@weight=\"bold\"]");
 
-    public final SelenideElement leftArrow = $(By.xpath("//div[contains(@class,'rounded-lg')]//img[@alt=\"left arrow\"]")),
-            rightArrow = $(By.xpath("//div[contains(@class,'rounded-lg')]//img[@alt=\"right arrow\"]")),
-            activeArrow = $(By.xpath("//div[contains(@class,'rounded-lg')]//img[@alt=\"right arrow\"]")),
-            nonActiveArrow = $(By.xpath("//div[contains(@class,'rounded-lg') and contains(@class,'transition-colors') and contains(@class,'-mb-px')]"));
+    public final SelenideElement leftArrow = $(By.xpath("//div[contains(@class,'items-center justify-center rounded-lg')]//img[@alt=\"left arrow\"]")),
+            rightArrow = $(By.xpath("//div[contains(@class,'items-center justify-center rounded-lg')]//img[@alt=\"right arrow\"]"));
+
+    public final String right_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='right arrow']";
+    public final String left_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='left arrow']";
+
 }

@@ -1,18 +1,25 @@
 package ge.tbcitacademy.steps;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.models.Deal;
+import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetails;
 import ge.tbcitacademy.pages.SearchResultsPage;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -20,6 +27,7 @@ import static org.testng.Assert.assertTrue;
 public class SearchSteps {
     SearchResultsPage searchResultsPage = new SearchResultsPage();
     ProductDetails productDetail = new ProductDetails();
+    CategoryPage categoryPage = new CategoryPage();
 
     public List<Deal> getSearchResults() {
         return searchResultsPage.searchedProduct.stream()
@@ -86,6 +94,12 @@ public class SearchSteps {
         return this;
     }
 
+    public SearchSteps validateSelectedCategory(String expectedCategory) {
+        SelenideElement selectedCategory = categoryPage.selectedCategory;
+        Assert.assertEquals(selectedCategory.getText(),expectedCategory, SELECTED_CATEGORY);
+        return this;
+    }
+
     public SearchSteps validateResultsContainKeyword(List<Deal> deals, String keyword) {
         for (Deal deal : deals) {
             boolean found = deal.getTitle().toLowerCase().contains(keyword.toLowerCase())
@@ -100,15 +114,54 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps clickNext() {
-        searchResultsPage.rightArrow.click();
+    public SearchSteps paginateThroughAllPagesAndBack() {
+        int currentPage = 1;
+        // Store initial active page numbers if necessary
+        List<Integer> activePages = new ArrayList<>();
+
+        while (isRightArrowClickable()) {
+            scrollToPagination();
+            searchResultsPage.rightArrow.click();
+
+            // Wait for new page to be loaded
+            activePages.add(currentPage);
+//            validateActivePageNumber(currentPage);
+            currentPage++;
+        }
+
+        while (isLeftArrowClickable()) {
+            System.out.println(currentPage);
+            scrollToPagination();
+            searchResultsPage.leftArrow.click();
+
+            // Wait for the page to be correctly loaded
+//            validateActivePageNumber(currentPage);
+            activePages.add(currentPage);
+
+            currentPage--;
+        }
+
+        // Optionally print or assert on active pages
+        activePages.forEach(page -> System.out.println("Active page: " + page));
+
         return this;
     }
 
-    public SearchSteps clickPrevious() {
-        searchResultsPage.leftArrow.click();
+    private boolean isRightArrowClickable() {
+        return $x(searchResultsPage.right_Active).exists();
+    }
+
+    private boolean isLeftArrowClickable() {
+        return $x(searchResultsPage.left_Active).exists();
+    }
+
+    public SearchSteps validateActivePageNumber(int expectedPageNumber) {
+        SelenideElement activePage = $(By.xpath("//div[contains(@class,'rounded-lg') and contains(@class,'primary_green')]"));
+        Assert.assertEquals(activePage.getText(), String.valueOf(expectedPageNumber), "Active page number mismatch");
         return this;
     }
+
+
 
     public SearchSteps validateDealsAreDifferent(List<Deal> page1, List<Deal> page2) {
         assertFalse(page1.equals(page2), SAME_RESULT);

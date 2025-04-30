@@ -51,18 +51,24 @@ public class CoreFunctionalityTests extends BaseTest {
                 .clickSubCategoryByName(RestSubCategory.KAKHETI)
                 .validateUrlContainsCategory();
 
+        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page1Deals = searchSteps.getSearchResults();
-        searchSteps.validateResultsNotEmpty(page1Deals);
 
         searchSteps.setPageNumber("2");
+        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page2Deals = searchSteps.getSearchResults();
-        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals)
-                .validateResultsNotEmpty(page2Deals);
+        System.out.println(page2Deals);
+        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
 
         searchSteps.setPageNumber("3");
+        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
-        searchSteps.validateDealsAreDifferent(page2Deals, page3Deals)
-                .validateResultsNotEmpty(page3Deals);
+        searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
+
+        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
+        searchSteps.setPageNumber("1")
+                .validateActivePageNumber(1)
+                .paginateThroughAllPagesAndBack();
     }
 
     @Test

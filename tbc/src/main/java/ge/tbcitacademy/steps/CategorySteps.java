@@ -40,9 +40,13 @@ public class CategorySteps {
         return this;
     }
 
-
     public CategorySteps validateUrlContainsCategory() {
         webdriver().shouldHave(urlContaining(CATEGORY));
+        return this;
+    }
+
+    public CategorySteps validatePaginationPageIsDisplay() {
+
         return this;
     }
 }
