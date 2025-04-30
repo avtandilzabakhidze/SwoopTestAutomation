@@ -3,7 +3,9 @@ package ge.tbcitacademy.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import ge.tbcitacademy.data.enums.Address;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
+import ge.tbcitacademy.data.enums.PriceRange;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetails;
@@ -54,6 +56,11 @@ public class SearchSteps {
 
     public SearchSteps openFirst(){
         searchResultsPage.searchedProduct.first().click();
+        return this;
+    }
+
+    public SearchSteps backBrowser(){
+        Selenide.back();
         return this;
     }
 
@@ -125,24 +132,16 @@ public class SearchSteps {
 
             // Wait for new page to be loaded
             activePages.add(currentPage);
-//            validateActivePageNumber(currentPage);
             currentPage++;
         }
 
         while (isLeftArrowClickable()) {
-            System.out.println(currentPage);
             scrollToPagination();
             searchResultsPage.leftArrow.click();
 
-            // Wait for the page to be correctly loaded
-//            validateActivePageNumber(currentPage);
             activePages.add(currentPage);
-
             currentPage--;
         }
-
-        // Optionally print or assert on active pages
-        activePages.forEach(page -> System.out.println("Active page: " + page));
 
         return this;
     }
@@ -181,6 +180,22 @@ public class SearchSteps {
 
     public SearchSteps setPageNumber(String num) {
         $(By.xpath("//div[contains(@class,'rounded-lg') and contains(text(),'" + num + "')]")).click();
+        return this;
+    }
+
+    public SearchSteps validateSelectedAddress(Address address) {
+        return this;
+    }
+
+    public SearchSteps validateSelectedPriceRange(PriceRange priceRange) {
+
+        return this;
+    }
+
+    public SearchSteps validateResultsWithinPriceRange(List<Deal> deals, PriceRange priceRange) {
+        for (Deal deal : deals) {
+            String price = deal.getPrice();
+        }
         return this;
     }
 }

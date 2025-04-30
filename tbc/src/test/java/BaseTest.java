@@ -8,7 +8,8 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
         Configuration.browser = "chrome";
-        Configuration.timeout = 10000; // 10 seconds
+        Configuration.timeout = 10000;
+        Configuration.browserSize = "1920x1080";
     }
 
     @AfterMethod

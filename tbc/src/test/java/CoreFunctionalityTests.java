@@ -6,6 +6,7 @@ import ge.tbcitacademy.steps.FoodSteps;
 import ge.tbcitacademy.steps.HomeSteps;
 import ge.tbcitacademy.steps.SearchSteps;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,7 @@ public class CoreFunctionalityTests extends BaseTest {
                 .pressSearchBtn()
                 .validateUrlContainsSearch();
 
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateResultsNotEmpty(searchResults)
                 .validateResultsContainKeyword(searchResults, WINE);
@@ -106,5 +108,27 @@ public class CoreFunctionalityTests extends BaseTest {
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
 
+        foodSteps.chooseAddress(Address.SABURTALO);
+        foodSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
+
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3"))
+                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+
+        List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
+
+        searchSteps.openFirst();
+        searchSteps.backBrowser();
+
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3"))
+                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+
+        searchSteps.validateSelectedAddress(Address.SABURTALO)
+                .validateSelectedPriceRange(PriceRange.ZERO_TO_HUNDRED);
+
+        List<Deal> afterNavigationDeals = searchSteps.getSearchResults();
+        searchSteps.validateResultsNotEmpty(afterNavigationDeals)
+                .validateResultsWithinPriceRange(afterNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
+
+        Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, "Deals changed after navigating back.");
     }
 }
