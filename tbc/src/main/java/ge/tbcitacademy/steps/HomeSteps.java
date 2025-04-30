@@ -2,7 +2,7 @@ package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Condition;
 import ge.tbcitacademy.data.enums.NavElement;
-import ge.tbcitacademy.pages.BasePage;
+import ge.tbcitacademy.pages.HomePage;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -10,21 +10,25 @@ import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static ge.tbcitacademy.data.constants.Constants.*;
 
 public class HomeSteps {
-    BasePage basePage = new BasePage();
+    HomePage homePage = new HomePage();
 
     public HomeSteps openHomePage() {
         open(BASE_URL);
         return this;
     }
 
+    public HomeSteps clearSearchInput() {
+        homePage.searchInput.clear();
+        return this;
+    }
+
     public HomeSteps setSearchInput(String input) {
-        basePage.searchInput.clear();
-        basePage.searchInput.setValue(input);
+        homePage.searchInput.setValue(input);
         return this;
     }
 
     public HomeSteps pressSearchBtn() {
-        basePage.searchBtn.click();
+        homePage.searchBtn.click();
         return this;
     }
 
@@ -34,7 +38,7 @@ public class HomeSteps {
     }
 
     public HomeSteps validateEmptyResultMessage() {
-        basePage.emptyResult.shouldBe(Condition.visible)
+        homePage.emptyResult.shouldBe(Condition.visible)
                 .shouldHave(Condition.text(WITHOUT_RESULT));
         return this;
     }

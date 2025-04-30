@@ -3,7 +3,7 @@ package ge.tbcitacademy.steps;
 import ge.tbcitacademy.data.enums.CategoryName;
 import ge.tbcitacademy.data.enums.PetSubCategory;
 import ge.tbcitacademy.data.enums.RestSubCategory;
-import ge.tbcitacademy.pages.BasePage;
+import ge.tbcitacademy.pages.HomePage;
 import ge.tbcitacademy.pages.CategoryPage;
 import org.openqa.selenium.By;
 
@@ -14,10 +14,10 @@ import static ge.tbcitacademy.data.constants.Constants.CATEGORY;
 
 public class CategorySteps {
     public CategoryPage categoryPage = new CategoryPage();
-    BasePage basePage = new BasePage();
+    HomePage homePage = new HomePage();
 
     public CategorySteps clickCategoriesButton() {
-        basePage.categoryBtn.shouldBe(visible).click();
+        homePage.categoryBtn.shouldBe(visible).click();
         return this;
     }
 

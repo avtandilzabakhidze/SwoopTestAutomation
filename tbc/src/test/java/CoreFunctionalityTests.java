@@ -28,7 +28,7 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void searchWithValidKeywordTest() {
+    public void searchTest() {
         homeSteps.setSearchInput(WINE)
                 .pressSearchBtn()
                 .validateUrlContainsSearch();
@@ -36,18 +36,16 @@ public class CoreFunctionalityTests extends BaseTest {
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateResultsNotEmpty(searchResults)
                 .validateResultsContainKeyword(searchResults, WINE);
-    }
 
-    @Test
-    public void searchWithInvalidKeywordTest() {
-        homeSteps.setSearchInput(RANDOM_WORD)
+        homeSteps.clearSearchInput()
+                .setSearchInput(RANDOM_WORD)
                 .pressSearchBtn()
-                .validateUrlContainsSearch()
-                .validateEmptyResultMessage();
+                .validateEmptyResultMessage()
+                .validateUrlContainsSearch();
     }
 
     @Test
-    public void categoryTest() {
+    public void paginationTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.VACATION)
                 .clickSubCategoryByName(RestSubCategory.KAKHETI)
@@ -68,7 +66,7 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void numberOfGuestsTest(){
+    public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
         foodSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
         List<Deal> searchResults = searchSteps.getSearchResults();
@@ -76,7 +74,7 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void offerDetailsConsistencyTest(){
+    public void offerDetailsConsistencyTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
@@ -88,7 +86,7 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void filterPersistenceTest(){
+    public void filterPersistenceTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
