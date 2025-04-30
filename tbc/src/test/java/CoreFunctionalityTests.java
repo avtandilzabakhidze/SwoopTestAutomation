@@ -34,9 +34,8 @@ public class CoreFunctionalityTests extends BaseTest {
                 .validateUrlContainsSearch();
 
         categoriesSteps.searchedPageIsOpened();
-        List<Deal> searchResults = searchSteps.getSearchResults();
-        searchSteps.validateResultsNotEmpty(searchResults)
-                .validateResultsContainKeyword(searchResults, WINE);
+        searchSteps.validateResultsNotEmpty(searchSteps.getSearchResults())
+                .validateResultsContainKeyword(searchSteps.getSearchResults(), WINE);
 
         homeSteps.clearSearchInput()
                 .setSearchInput(RANDOM_WORD)
@@ -64,7 +63,6 @@ public class CoreFunctionalityTests extends BaseTest {
 
         searchSteps.setPageNumber(THREE);
         categoriesSteps.searchedPageIsOpened();
-        ;
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
@@ -80,8 +78,7 @@ public class CoreFunctionalityTests extends BaseTest {
         homeSteps.findNavbarElement(NavElement.FOOD);
         filterSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
         searchSteps.validateSelectedCategory(NavElement.FOOD.getValue());
-        List<Deal> searchResults = searchSteps.getSearchResults();
-        searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
+        searchSteps.validateGuestCountInDeals(searchSteps.getSearchResults(), NumberOfGuest.TWO_TO_FIVE);
     }
 
     @Test(priority = 4)
@@ -92,8 +89,7 @@ public class CoreFunctionalityTests extends BaseTest {
         Deal first = searchSteps.findFirst();
 
         searchSteps.openFirst();
-        Deal deal = searchSteps.grabDetails();
-        searchSteps.validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, deal);
+        searchSteps.validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, searchSteps.grabDetails());
     }
 
 
@@ -113,8 +109,7 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.openFirst();
         searchSteps.backBrowser();
         categoriesSteps.searchedPageIsOpened();
-        List<Deal> afterNavigationDeals = searchSteps.getSearchResults();
         searchSteps.filterKeywordsIsDisplay();
-        Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, CHANGE_BACK);
+        Assert.assertEquals(searchSteps.getSearchResults(), beforeNavigationDeals, CHANGE_BACK);
     }
 }

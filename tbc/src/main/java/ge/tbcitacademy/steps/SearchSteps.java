@@ -2,15 +2,14 @@ package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.collections.SizeGreaterThan;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.enums.PriceRange;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetailsPage;
 import ge.tbcitacademy.pages.SearchResultsPage;
+import lombok.Getter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.devtools.v85.systeminfo.model.Size;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -91,7 +90,6 @@ public class SearchSteps {
         }
         return this;
     }
-
 
     public SearchSteps validateResultsNotEmpty(List<Deal> deals) {
         assertFalse(deals.isEmpty(), SEARCH_RESULT_SHOULD_NOT_EMPTY);
