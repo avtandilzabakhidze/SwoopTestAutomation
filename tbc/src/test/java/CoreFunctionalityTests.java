@@ -2,7 +2,7 @@ import com.codeborne.selenide.Condition;
 import ge.tbcitacademy.data.enums.*;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.steps.CategorySteps;
-import ge.tbcitacademy.steps.FoodSteps;
+import ge.tbcitacademy.steps.FilterSteps;
 import ge.tbcitacademy.steps.HomeSteps;
 import ge.tbcitacademy.steps.SearchSteps;
 import org.openqa.selenium.By;
@@ -14,21 +14,20 @@ import java.time.Duration;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
-import static ge.tbcitacademy.data.constants.Constants.RANDOM_WORD;
-import static ge.tbcitacademy.data.constants.Constants.WINE;
+import static ge.tbcitacademy.data.constants.Constants.*;
 
 public class CoreFunctionalityTests extends BaseTest {
     private HomeSteps homeSteps;
     private SearchSteps searchSteps;
     private CategorySteps categoriesSteps;
-    private FoodSteps foodSteps;
+    private FilterSteps filterSteps;
 
     @BeforeMethod
     public void setUp() {
         homeSteps = new HomeSteps();
         searchSteps = new SearchSteps();
         categoriesSteps = new CategorySteps();
-        foodSteps = new FoodSteps();
+        filterSteps = new FilterSteps();
         homeSteps.openHomePage();
     }
 
@@ -61,21 +60,21 @@ public class CoreFunctionalityTests extends BaseTest {
         $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         List<Deal> page1Deals = searchSteps.getSearchResults();
 
-        searchSteps.setPageNumber("2");
+        searchSteps.setPageNumber(TWO);
         $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page2Deals = searchSteps.getSearchResults();
         System.out.println(page2Deals);
         searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
 
-        searchSteps.setPageNumber("3");
+        searchSteps.setPageNumber(THREE);
         $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
-        searchSteps.setPageNumber("1")
+        searchSteps.setPageNumber(ONE)
                 .validateActivePageNumber(1)
                 .paginateThroughAllPagesAndBack();
     }
@@ -83,7 +82,7 @@ public class CoreFunctionalityTests extends BaseTest {
     @Test
     public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
-        foodSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
+        filterSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
         searchSteps.validateSelectedCategory(NavElement.FOOD.getValue());
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
@@ -108,8 +107,8 @@ public class CoreFunctionalityTests extends BaseTest {
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
 
-        foodSteps.chooseAddress(Address.SABURTALO);
-        foodSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
+        filterSteps.chooseAddress(Address.SABURTALO);
+        filterSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
 
         $(By.xpath("//div[contains(@class,'items-baseline')]//h3"))
                 .shouldBe(Condition.visible, Duration.ofSeconds(10));
@@ -129,6 +128,6 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateResultsNotEmpty(afterNavigationDeals)
                 .validateResultsWithinPriceRange(afterNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
 
-        Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, "Deals changed after navigating back.");
+        Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, CHANGE_BACK);
     }
 }

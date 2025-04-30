@@ -44,7 +44,7 @@ public class HomeSteps {
     }
 
     public HomeSteps findNavbarElement(NavElement navElement) {
-        $(By.xpath("//a//img/following-sibling::p[contains(text(),'" + navElement.getValue() + "')]")).click();
+        $(By.xpath(String.format(homePage.navbarElementXPath, navElement.getValue()))).click();
         return this;
     }
 }

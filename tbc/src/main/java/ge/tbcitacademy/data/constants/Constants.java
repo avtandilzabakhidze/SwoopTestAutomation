@@ -11,5 +11,16 @@ public class Constants {
             KEYWORD_NOT_FOUND = "Expected keyword not found in deal",
             SAME_RESULT = "Page result are same",
             OFFER_NOT_RANGE = "Offer is not in this count range",
-            SELECTED_CATEGORY = "category should be selected";
+            SELECTED_CATEGORY = "category should be selected",
+            CHANGE_BACK = "Deals changed after back",
+            TEXT_MISMATCH = "Deal title mismatch",
+            DESC_MISMATCH = "Deal description mismatch",
+            PRICE_MISMATCH = "Deal price mismatch",
+            EMPTY = "",
+            ACTIVATE_PAGE_NUMBER = "Active page number mismatch",
+            REGX = "[^\\d.]",
+            REGX_QUAN = "(\\d+)([-+]?\\d*)\\s*(ადამიანზე|სტუმარზე)",
+            ONE = "1",
+            TWO = "2",
+            THREE = "3";
 }

@@ -19,7 +19,6 @@ public class SearchResultsPage {
     public final SelenideElement leftArrow = $(By.xpath("//div[contains(@class,'items-center justify-center rounded-lg')]//img[@alt=\"left arrow\"]")),
             rightArrow = $(By.xpath("//div[contains(@class,'items-center justify-center rounded-lg')]//img[@alt=\"right arrow\"]"));
 
-    public final String right_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='right arrow']";
-    public final String left_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='left arrow']";
-
+    public final String right_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='right arrow']",
+            left_Active = "//div[contains(@class,'items-center justify-center rounded-lg') and not(contains(@class,'opacity-50'))]//img[@alt='left arrow']";
 }

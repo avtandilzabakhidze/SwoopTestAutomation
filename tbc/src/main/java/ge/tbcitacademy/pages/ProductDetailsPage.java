@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class ProductDetails {
+public class ProductDetailsPage {
     public final SelenideElement title = $(By.xpath("//h2[contains(@class,\"font-tbcx-medium\")]")),
             description = $(By.xpath("//a[contains(@href,'/merchant/')]//p")),
             soldQuantity = $(By.xpath("//img[@src=\"/icons/Ellipse.svg\"]/following-sibling::div//p[2]")),
