@@ -1,14 +1,18 @@
+import com.codeborne.selenide.Condition;
 import ge.tbcitacademy.data.enums.*;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.steps.CategorySteps;
 import ge.tbcitacademy.steps.FoodSteps;
 import ge.tbcitacademy.steps.HomeSteps;
 import ge.tbcitacademy.steps.SearchSteps;
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 
+import static com.codeborne.selenide.Selenide.$;
 import static ge.tbcitacademy.data.constants.Constants.RANDOM_WORD;
 import static ge.tbcitacademy.data.constants.Constants.WINE;
 
@@ -52,15 +56,18 @@ public class CoreFunctionalityTests extends BaseTest {
                 .validateUrlContainsCategory();
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         List<Deal> page1Deals = searchSteps.getSearchResults();
 
         searchSteps.setPageNumber("2");
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page2Deals = searchSteps.getSearchResults();
         System.out.println(page2Deals);
         searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
 
         searchSteps.setPageNumber("3");
+        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
@@ -75,6 +82,7 @@ public class CoreFunctionalityTests extends BaseTest {
     public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
         foodSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
+        searchSteps.validateSelectedCategory(NavElement.FOOD.getValue());
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
     }
@@ -85,11 +93,12 @@ public class CoreFunctionalityTests extends BaseTest {
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
         Deal first = searchSteps.findFirst();
-        System.out.println(first);
+
         searchSteps.openFirst();
         Deal deal = searchSteps.grabDetails();
-        System.out.println(deal);
+        searchSteps.validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, deal);
     }
+
 
     @Test
     public void filterPersistenceTest() {

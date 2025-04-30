@@ -161,6 +161,17 @@ public class SearchSteps {
         return this;
     }
 
+    public SearchSteps validateDealInfoConsistentIgnoringSoldAndPriceFormat(Deal deal1, Deal deal2) {
+        String normalizedPrice1 = deal1.getPrice().replaceAll("[^\\d.]", "");
+        String normalizedPrice2 = deal2.getPrice().replaceAll("[^\\d.]", "");
+
+        Assert.assertEquals(deal1.getTitle(), deal2.getTitle(), "Deal title mismatch");
+        Assert.assertEquals(deal1.getDescription(), deal2.getDescription(), "Deal description mismatch");
+
+        Assert.assertEquals(normalizedPrice1, normalizedPrice2, "Deal price mismatch");
+
+        return this;
+    }
 
 
     public SearchSteps validateDealsAreDifferent(List<Deal> page1, List<Deal> page2) {
