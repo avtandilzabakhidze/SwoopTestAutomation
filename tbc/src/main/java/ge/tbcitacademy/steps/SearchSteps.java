@@ -2,6 +2,7 @@ package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.collections.SizeGreaterThan;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.enums.PriceRange;
 import ge.tbcitacademy.data.models.Deal;
@@ -9,6 +10,7 @@ import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetailsPage;
 import ge.tbcitacademy.pages.SearchResultsPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.devtools.v85.systeminfo.model.Size;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -17,8 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Selenide.*;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -174,13 +176,20 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps validateSelectedPriceRange(PriceRange priceRange) {
+    public SearchSteps filterKeywordsIsDisplay() {
+        $$(searchResultsPage.searchedFilters).shouldHave(sizeGreaterThan(1));
         return this;
     }
 
     public SearchSteps validateResultsWithinPriceRange(List<Deal> deals, PriceRange priceRange) {
+        int min = priceRange.getMin();
+        int max = priceRange.getMax();
+
         for (Deal deal : deals) {
-            String price = deal.getPrice();
+            String priceText = deal.getPrice();
+            String numberPart = priceText.replaceAll(ZERO_TO_NINE, EMPTY);
+            int price = (int) Double.parseDouble(numberPart);
+            assertTrue(price >= min && price <= max, PRICE_NOT_RANGE);
         }
         return this;
     }

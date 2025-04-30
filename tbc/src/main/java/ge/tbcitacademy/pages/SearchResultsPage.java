@@ -10,6 +10,7 @@ import static org.openqa.selenium.By.xpath;
 
 public class SearchResultsPage {
     public ElementsCollection searchedProduct = $$(xpath("//a[contains(@href,'/offers/')]"));
+    public By searchedFilters = xpath("//p[contains(@class,\"text-primary_black-100-value text-md leading-5 font-tbcx-medium\")]");
 
     public By title = xpath(".//h4"),
             description = xpath(".//div[contains(@class,'text-primary_black-50')]"),

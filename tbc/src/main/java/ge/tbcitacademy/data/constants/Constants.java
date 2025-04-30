@@ -19,11 +19,13 @@ public class Constants {
             EMPTY = "",
             ACTIVATE_PAGE_NUMBER = "Active page number mismatch",
             REGX = "[^\\d.]",
+            ZERO_TO_NINE = "[^0-9.]",
             REGX_QUAN = "(\\d+)([-+]?\\d*)\\s*(ადამიანზე|სტუმარზე)",
             ONE = "1",
             TWO = "2",
             THREE = "3",
-            SCREEN_SIZE = "1920x1080";
+            SCREEN_SIZE = "1920x1080",
+            PRICE_NOT_RANGE = "Price not in expected range";
 
     public static final int NUMBER_OF_SECONDS = 15,
             COUNTER = 1,

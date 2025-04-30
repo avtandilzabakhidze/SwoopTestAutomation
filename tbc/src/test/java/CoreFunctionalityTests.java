@@ -63,14 +63,15 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
 
         searchSteps.setPageNumber(THREE);
-        categoriesSteps.searchedPageIsOpened();;
+        categoriesSteps.searchedPageIsOpened();
+        ;
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         searchSteps.setPageNumber(ONE)
-                .validateActivePageNumber(1)
+                .validateActivePageNumber(COUNTER)
                 .paginateThroughAllPagesAndBack();
     }
 
@@ -107,15 +108,13 @@ public class CoreFunctionalityTests extends BaseTest {
         categoriesSteps.searchedPageIsOpened();
 
         List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
+        searchSteps.validateResultsWithinPriceRange(beforeNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
+
         searchSteps.openFirst();
         searchSteps.backBrowser();
         categoriesSteps.searchedPageIsOpened();
-        searchSteps.validateSelectedPriceRange(PriceRange.ZERO_TO_HUNDRED);
-
         List<Deal> afterNavigationDeals = searchSteps.getSearchResults();
-        searchSteps.validateResultsNotEmpty(afterNavigationDeals)
-                .validateResultsWithinPriceRange(afterNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
-
+        searchSteps.filterKeywordsIsDisplay();
         Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, CHANGE_BACK);
     }
 }
