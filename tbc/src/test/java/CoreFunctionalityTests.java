@@ -1,19 +1,15 @@
-import com.codeborne.selenide.Condition;
 import ge.tbcitacademy.data.enums.*;
 import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.steps.CategorySteps;
 import ge.tbcitacademy.steps.FilterSteps;
 import ge.tbcitacademy.steps.HomeSteps;
 import ge.tbcitacademy.steps.SearchSteps;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
 import static ge.tbcitacademy.data.constants.Constants.*;
 
 public class CoreFunctionalityTests extends BaseTest {
@@ -31,13 +27,13 @@ public class CoreFunctionalityTests extends BaseTest {
         homeSteps.openHomePage();
     }
 
-    @Test
+    @Test(priority = 1)
     public void searchTest() {
         homeSteps.setSearchInput(WINE)
                 .pressSearchBtn()
                 .validateUrlContainsSearch();
 
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
+        categoriesSteps.searchedPageIsOpened();
         List<Deal> searchResults = searchSteps.getSearchResults();
         searchSteps.validateResultsNotEmpty(searchResults)
                 .validateResultsContainKeyword(searchResults, WINE);
@@ -49,7 +45,7 @@ public class CoreFunctionalityTests extends BaseTest {
                 .validateUrlContainsSearch();
     }
 
-    @Test
+    @Test(priority = 2)
     public void paginationTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.VACATION)
@@ -57,18 +53,17 @@ public class CoreFunctionalityTests extends BaseTest {
                 .validateUrlContainsCategory();
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
+        categoriesSteps.searchedPageIsOpened();
         List<Deal> page1Deals = searchSteps.getSearchResults();
 
         searchSteps.setPageNumber(TWO);
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
+        categoriesSteps.searchedPageIsOpened();
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page2Deals = searchSteps.getSearchResults();
-        System.out.println(page2Deals);
         searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
 
         searchSteps.setPageNumber(THREE);
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3")).shouldHave(Condition.exist, Duration.ofSeconds(10));
+        categoriesSteps.searchedPageIsOpened();;
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
@@ -79,7 +74,7 @@ public class CoreFunctionalityTests extends BaseTest {
                 .paginateThroughAllPagesAndBack();
     }
 
-    @Test
+    @Test(priority = 3)
     public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
         filterSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
@@ -88,7 +83,7 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateGuestCountInDeals(searchResults, NumberOfGuest.TWO_TO_FIVE);
     }
 
-    @Test
+    @Test(priority = 4)
     public void offerDetailsConsistencyTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
@@ -101,7 +96,7 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
 
-    @Test
+    @Test(priority = 5)
     public void filterPersistenceTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
@@ -109,20 +104,13 @@ public class CoreFunctionalityTests extends BaseTest {
 
         filterSteps.chooseAddress(Address.SABURTALO);
         filterSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
-
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3"))
-                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+        categoriesSteps.searchedPageIsOpened();
 
         List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
-
         searchSteps.openFirst();
         searchSteps.backBrowser();
-
-        $(By.xpath("//div[contains(@class,'items-baseline')]//h3"))
-                .shouldBe(Condition.visible, Duration.ofSeconds(10));
-
-        searchSteps.validateSelectedAddress(Address.SABURTALO)
-                .validateSelectedPriceRange(PriceRange.ZERO_TO_HUNDRED);
+        categoriesSteps.searchedPageIsOpened();
+        searchSteps.validateSelectedPriceRange(PriceRange.ZERO_TO_HUNDRED);
 
         List<Deal> afterNavigationDeals = searchSteps.getSearchResults();
         searchSteps.validateResultsNotEmpty(afterNavigationDeals)

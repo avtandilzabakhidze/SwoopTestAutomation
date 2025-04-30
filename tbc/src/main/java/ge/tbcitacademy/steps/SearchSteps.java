@@ -2,7 +2,6 @@ package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import ge.tbcitacademy.data.enums.Address;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.enums.PriceRange;
 import ge.tbcitacademy.data.models.Deal;
@@ -18,7 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -117,7 +117,7 @@ public class SearchSteps {
     }
 
     public SearchSteps paginateThroughAllPagesAndBack() {
-        int currentPage = 1;
+        int currentPage = COUNTER;
         List<Integer> activePages = new ArrayList<>();
 
         while (isRightArrowClickable()) {
@@ -148,7 +148,7 @@ public class SearchSteps {
     }
 
     public SearchSteps validateActivePageNumber(int expectedPageNumber) {
-        SelenideElement activePage = $(By.xpath("//div[contains(@class,'rounded-lg') and contains(@class,'primary_green')]"));
+        SelenideElement activePage = $(searchResultsPage.activePage);
         Assert.assertEquals(activePage.getText(), String.valueOf(expectedPageNumber), ACTIVATE_PAGE_NUMBER);
         return this;
     }
@@ -163,18 +163,14 @@ public class SearchSteps {
         return this;
     }
 
-
     public SearchSteps validateDealsAreDifferent(List<Deal> page1, List<Deal> page2) {
         assertFalse(page1.equals(page2), SAME_RESULT);
         return this;
     }
 
     public SearchSteps setPageNumber(String num) {
-        $(By.xpath("//div[contains(@class,'rounded-lg') and contains(text(),'" + num + "')]")).click();
-        return this;
-    }
-
-    public SearchSteps validateSelectedAddress(Address address) {
+        String formattedXPath = String.format(searchResultsPage.pageNumberXPath, num);
+        $(By.xpath(formattedXPath)).click();
         return this;
     }
 

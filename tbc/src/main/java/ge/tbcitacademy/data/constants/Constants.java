@@ -22,5 +22,10 @@ public class Constants {
             REGX_QUAN = "(\\d+)([-+]?\\d*)\\s*(ადამიანზე|სტუმარზე)",
             ONE = "1",
             TWO = "2",
-            THREE = "3";
+            THREE = "3",
+            SCREEN_SIZE = "1920x1080";
+
+    public static final int NUMBER_OF_SECONDS = 15,
+            COUNTER = 1,
+            COUNTER_SEC = 10000;
 }
