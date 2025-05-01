@@ -4,7 +4,6 @@ import ge.tbcitacademy.steps.CategorySteps;
 import ge.tbcitacademy.steps.FilterSteps;
 import ge.tbcitacademy.steps.HomeSteps;
 import ge.tbcitacademy.steps.SearchSteps;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -59,16 +58,15 @@ public class CoreFunctionalityTests extends BaseTest {
         categoriesSteps.searchedPageIsOpened();
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page2Deals = searchSteps.getSearchResults();
-        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals);
-
-        searchSteps.setPageNumber(THREE);
+        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals)
+                .setPageNumber(THREE);
         categoriesSteps.searchedPageIsOpened();
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         List<Deal> page3Deals = searchSteps.getSearchResults();
         searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
 
-        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
-        searchSteps.setPageNumber(ONE)
+        searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue())
+                .setPageNumber(ONE)
                 .validateActivePageNumber(COUNTER)
                 .paginateThroughAllPagesAndBack();
     }
@@ -77,8 +75,8 @@ public class CoreFunctionalityTests extends BaseTest {
     public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
         filterSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
-        searchSteps.validateSelectedCategory(NavElement.FOOD.getValue());
-        searchSteps.validateGuestCountInDeals(searchSteps.getSearchResults(), NumberOfGuest.TWO_TO_FIVE);
+        searchSteps.validateSelectedCategory(NavElement.FOOD.getValue())
+                .validateGuestCountInDeals(searchSteps.getSearchResults(), NumberOfGuest.TWO_TO_FIVE);
     }
 
     @Test(priority = 4)
@@ -88,8 +86,8 @@ public class CoreFunctionalityTests extends BaseTest {
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
         Deal first = searchSteps.findFirst();
 
-        searchSteps.openFirst();
-        searchSteps.validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, searchSteps.grabDetails());
+        searchSteps.openFirst()
+                .validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, searchSteps.grabDetails());
     }
 
     @Test(priority = 5)
@@ -98,15 +96,15 @@ public class CoreFunctionalityTests extends BaseTest {
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
 
-        filterSteps.chooseAddress(Address.SABURTALO);
-        filterSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
+        filterSteps.chooseAddress(Address.SABURTALO)
+                .choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
         categoriesSteps.searchedPageIsOpened();
 
         List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
         searchSteps.validateResultsWithinPriceRange(beforeNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
 
-        searchSteps.openFirst();
-        searchSteps.backBrowser();
+        searchSteps.openFirst()
+                .backBrowser();
         categoriesSteps.searchedPageIsOpened();
         searchSteps.filterKeywordsIsDisplay();
     }

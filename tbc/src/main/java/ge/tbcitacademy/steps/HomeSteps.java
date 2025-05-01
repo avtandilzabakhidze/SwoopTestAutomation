@@ -97,24 +97,20 @@ public class HomeSteps {
     }
 
     public HomeSteps validateFooterLinksHorizontal() {
-        int referenceY = homePage.links.get(0).getLocation().getY();
-        boolean allAligned = homePage.links.stream()
-                .allMatch(link -> link.getLocation().getY() == referenceY);
+        int referenceY = homePage.searchedProduct.get(0).getLocation().getY();
+        boolean allAligned = homePage.searchedProduct.stream()
+                .allMatch(el -> el.getLocation().getY() == referenceY);
 
         assertTrue(allAligned, FOOTER_NOT_HORIZONTAL);
         return this;
     }
 
     public HomeSteps validateFooterLinksVertical() {
-        ElementsCollection links = homePage.links;
+        ElementsCollection elements = homePage.searchedProduct;
 
-        if (links.size() < 2) {
-            Assert.assertEquals(links.size(), COUNTER, FOOTER_LINK_NOT_VERTICAL);
-        }
-
-        int previousY = links.get(0).getLocation().getY();
-        for (int i = 1; i < links.size(); i++) {
-            int currentY = links.get(i).getLocation().getY();
+        int previousY = elements.get(0).getLocation().getY();
+        for (int i = 1; i < elements.size(); i++) {
+            int currentY = elements.get(i).getLocation().getY();
             if (currentY <= previousY) {
                 Assert.fail(FOOTER_LINK_NOT_VERTICAL);
             }

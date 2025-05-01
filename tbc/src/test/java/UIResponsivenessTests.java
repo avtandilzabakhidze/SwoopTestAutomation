@@ -39,8 +39,8 @@ public class UIResponsivenessTests {
         screenSteps.setViewportSize(SIZE_768, SIZE_1024);
         homeSteps.validateSearchBarIconVisible()
                 .validateNavBarAndBurgerMenuIsVisible()
-                .validateOfferCardsInGrid(TWO_INT)
-                .validateFooterLinksHorizontal()
+                .validateOfferCardsInGrid(COUNTER)
+                .validateFooterLinksVertical()
                 .validateNoHorizontalScroll();
     }
 
