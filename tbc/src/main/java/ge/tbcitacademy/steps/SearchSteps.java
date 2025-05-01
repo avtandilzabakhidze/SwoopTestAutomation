@@ -39,14 +39,6 @@ public class SearchSteps {
         return new Offer(title, description, price, sold);
     }
 
-    private Offer parseDealFromProductDetails() {
-        String title = productDetail.title.getText();
-        String description = productDetail.description.getText();
-        String price = productDetail.price.getText();
-        String sold = productDetail.soldQuantity.getText();
-        return new Offer(title, description, price, sold);
-    }
-
     public List<Offer> getSearchResults() {
         return searchResultsPage.searchedProduct.stream()
                 .map(this::parseDealFrom)
@@ -88,6 +80,14 @@ public class SearchSteps {
             assertTrue(matchFound, OFFER_NOT_RANGE);
         }
         return this;
+    }
+
+    private Offer parseDealFromProductDetails() {
+        String title = productDetail.title.getText();
+        String description = productDetail.description.getText();
+        String price = productDetail.price.getText();
+        String sold = productDetail.soldQuantity.getText();
+        return new Offer(title, description, price, sold);
     }
 
     public SearchSteps validateResultsNotEmpty(List<Offer> offers) {

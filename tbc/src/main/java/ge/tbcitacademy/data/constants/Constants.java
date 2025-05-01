@@ -36,7 +36,6 @@ public class Constants {
     public static final int NUMBER_OF_SECONDS = 15,
             COUNTER = 1,
             THREE_INT = 3,
-            TWO_INT = 2,
             COUNTER_SEC = 10000,
             SIZE_1920 = 1920,
             SIZE_1080 = 1080,
