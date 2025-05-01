@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Deal {
+public class Offer {
     private String title;
     private String description;
     private String price;

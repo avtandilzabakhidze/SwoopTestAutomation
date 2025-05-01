@@ -4,7 +4,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import ge.tbcitacademy.data.enums.NumberOfGuest;
 import ge.tbcitacademy.data.enums.PriceRange;
-import ge.tbcitacademy.data.models.Deal;
+import ge.tbcitacademy.data.models.Offer;
 import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetailsPage;
 import ge.tbcitacademy.pages.SearchResultsPage;
@@ -31,29 +31,29 @@ public class SearchSteps {
     ProductDetailsPage productDetail = new ProductDetailsPage();
     CategoryPage categoryPage = new CategoryPage();
 
-    private Deal parseDealFrom(SelenideElement element) {
+    private Offer parseDealFrom(SelenideElement element) {
         String title = element.find(searchResultsPage.title).getText();
         String description = element.find(searchResultsPage.description).getText();
         String price = element.find(searchResultsPage.price).getText();
         String sold = element.find(searchResultsPage.soldQuantity).getText();
-        return new Deal(title, description, price, sold);
+        return new Offer(title, description, price, sold);
     }
 
-    private Deal parseDealFromProductDetails() {
+    private Offer parseDealFromProductDetails() {
         String title = productDetail.title.getText();
         String description = productDetail.description.getText();
         String price = productDetail.price.getText();
         String sold = productDetail.soldQuantity.getText();
-        return new Deal(title, description, price, sold);
+        return new Offer(title, description, price, sold);
     }
 
-    public List<Deal> getSearchResults() {
+    public List<Offer> getSearchResults() {
         return searchResultsPage.searchedProduct.stream()
                 .map(this::parseDealFrom)
                 .collect(Collectors.toList());
     }
 
-    public Deal findFirst() {
+    public Offer findFirst() {
         return parseDealFrom(searchResultsPage.searchedProduct.first());
     }
 
@@ -67,13 +67,13 @@ public class SearchSteps {
         return this;
     }
 
-    public Deal grabDetails() {
+    public Offer grabDetails() {
         return parseDealFromProductDetails();
     }
 
-    public SearchSteps validateGuestCountInDeals(List<Deal> deals, NumberOfGuest guestRange) {
-        for (Deal deal : deals) {
-            String combinedText = deal.getTitle() + EMPTY + deal.getDescription();
+    public SearchSteps validateGuestCountInDeals(List<Offer> offers, NumberOfGuest guestRange) {
+        for (Offer offer : offers) {
+            String combinedText = offer.getTitle() + EMPTY + offer.getDescription();
             Pattern pattern = Pattern.compile(REGX_QUAN);
             Matcher matcher = pattern.matcher(combinedText);
 
@@ -90,9 +90,9 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps validateResultsNotEmpty(List<Deal> deals) {
-        logger.debug(LOGGER_DATA, deals.size());
-        assertFalse(deals.isEmpty(), SEARCH_RESULT_SHOULD_NOT_EMPTY);
+    public SearchSteps validateResultsNotEmpty(List<Offer> offers) {
+        logger.debug(LOGGER_DATA, offers.size());
+        assertFalse(offers.isEmpty(), SEARCH_RESULT_SHOULD_NOT_EMPTY);
         return this;
     }
 
@@ -102,10 +102,10 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps validateResultsContainKeyword(List<Deal> deals, String keyword) {
-        for (Deal deal : deals) {
-            boolean found = deal.getTitle().toLowerCase().contains(keyword.toLowerCase())
-                    || deal.getDescription().toLowerCase().contains(keyword.toLowerCase());
+    public SearchSteps validateResultsContainKeyword(List<Offer> offers, String keyword) {
+        for (Offer offer : offers) {
+            boolean found = offer.getTitle().toLowerCase().contains(keyword.toLowerCase())
+                    || offer.getDescription().toLowerCase().contains(keyword.toLowerCase());
             assertTrue(found, KEYWORD_NOT_FOUND);
         }
         return this;
@@ -149,17 +149,17 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps validateDealInfoConsistentIgnoringSoldAndPriceFormat(Deal deal1, Deal deal2) {
-        String normalizedPrice1 = deal1.getPrice().replaceAll(REGX, EMPTY);
-        String normalizedPrice2 = deal2.getPrice().replaceAll(REGX, EMPTY);
+    public SearchSteps validateDealInfoConsistentIgnoringSoldAndPriceFormat(Offer offer1, Offer offer2) {
+        String normalizedPrice1 = offer1.getPrice().replaceAll(REGX, EMPTY);
+        String normalizedPrice2 = offer2.getPrice().replaceAll(REGX, EMPTY);
 
-        Assert.assertEquals(deal1.getTitle(), deal2.getTitle(), TEXT_MISMATCH);
-        Assert.assertEquals(deal1.getDescription(), deal2.getDescription(), DESC_MISMATCH);
+        Assert.assertEquals(offer1.getTitle(), offer2.getTitle(), TEXT_MISMATCH);
+        Assert.assertEquals(offer1.getDescription(), offer2.getDescription(), DESC_MISMATCH);
         Assert.assertEquals(normalizedPrice1, normalizedPrice2, PRICE_MISMATCH);
         return this;
     }
 
-    public SearchSteps validateDealsAreDifferent(List<Deal> page1, List<Deal> page2) {
+    public SearchSteps validateDealsAreDifferent(List<Offer> page1, List<Offer> page2) {
         assertFalse(page1.equals(page2), SAME_RESULT);
         return this;
     }
@@ -175,12 +175,12 @@ public class SearchSteps {
         return this;
     }
 
-    public SearchSteps validateResultsWithinPriceRange(List<Deal> deals, PriceRange priceRange) {
+    public SearchSteps validateResultsWithinPriceRange(List<Offer> offers, PriceRange priceRange) {
         int min = priceRange.getMin();
         int max = priceRange.getMax();
 
-        for (Deal deal : deals) {
-            String priceText = deal.getPrice();
+        for (Offer offer : offers) {
+            String priceText = offer.getPrice();
             String numberPart = priceText.replaceAll(ZERO_TO_NINE, EMPTY);
             int price = (int) Double.parseDouble(numberPart);
             assertTrue(price >= min && price <= max, PRICE_NOT_RANGE);

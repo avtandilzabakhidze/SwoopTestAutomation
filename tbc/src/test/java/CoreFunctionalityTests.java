@@ -1,5 +1,5 @@
 import ge.tbcitacademy.data.enums.*;
-import ge.tbcitacademy.data.models.Deal;
+import ge.tbcitacademy.data.models.Offer;
 import ge.tbcitacademy.steps.CategorySteps;
 import ge.tbcitacademy.steps.FilterSteps;
 import ge.tbcitacademy.steps.HomeSteps;
@@ -52,18 +52,18 @@ public class CoreFunctionalityTests extends BaseTest {
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
         categoriesSteps.searchedPageIsOpened();
-        List<Deal> page1Deals = searchSteps.getSearchResults();
+        List<Offer> page1Offers = searchSteps.getSearchResults();
 
         searchSteps.setPageNumber(TWO);
         categoriesSteps.searchedPageIsOpened();
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
-        List<Deal> page2Deals = searchSteps.getSearchResults();
-        searchSteps.validateDealsAreDifferent(page1Deals, page2Deals)
+        List<Offer> page2Offers = searchSteps.getSearchResults();
+        searchSteps.validateDealsAreDifferent(page1Offers, page2Offers)
                 .setPageNumber(THREE);
         categoriesSteps.searchedPageIsOpened();
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue());
-        List<Deal> page3Deals = searchSteps.getSearchResults();
-        searchSteps.validateDealsAreDifferent(page2Deals, page3Deals);
+        List<Offer> page3Offers = searchSteps.getSearchResults();
+        searchSteps.validateDealsAreDifferent(page2Offers, page3Offers);
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue())
                 .setPageNumber(ONE)
@@ -84,7 +84,7 @@ public class CoreFunctionalityTests extends BaseTest {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
                 .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
-        Deal first = searchSteps.findFirst();
+        Offer first = searchSteps.findFirst();
 
         searchSteps.openFirst()
                 .validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, searchSteps.grabDetails());
@@ -100,8 +100,8 @@ public class CoreFunctionalityTests extends BaseTest {
                 .choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
         categoriesSteps.searchedPageIsOpened();
 
-        List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
-        searchSteps.validateResultsWithinPriceRange(beforeNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
+        List<Offer> beforeNavigationOffers = searchSteps.getSearchResults();
+        searchSteps.validateResultsWithinPriceRange(beforeNavigationOffers, PriceRange.ZERO_TO_HUNDRED);
 
         searchSteps.openFirst()
                 .backBrowser();
