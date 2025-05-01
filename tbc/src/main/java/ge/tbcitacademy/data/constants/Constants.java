@@ -28,6 +28,8 @@ public class Constants {
             FOOTER_LINK = "All footer links should be horizontally aligned",
             EXPECTING = "Expecting first 3 offer cards is not same row",
             PRICE_NOT_RANGE = "Price not in expected range",
+            FOOTER_LINK_NOT_VERTICAL = "Footer links are not vertically aligned",
+            FOOTER_NOT_HORIZONTAL = "Footer links are not horizontally",
             LOGGER_DATA = "Number of deals found: {}";
 
     public static final int NUMBER_OF_SECONDS = 15,

@@ -1,9 +1,11 @@
 package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import ge.tbcitacademy.data.enums.NavElement;
 import ge.tbcitacademy.pages.HomePage;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class HomeSteps {
     HomePage homePage = new HomePage();
@@ -90,13 +93,31 @@ public class HomeSteps {
         return this;
     }
 
-    public HomeSteps validateFooterLinksAlignment() {
-        List<Integer> footerYCoords = homePage.links.stream()
-                .map(link -> link.getLocation().getY())
-                .distinct()
-                .toList();
+    public HomeSteps validateFooterLinksHorizontal() {
+        int referenceY = homePage.links.get(0).getLocation().getY();
+        boolean allAligned = homePage.links.stream()
+                .allMatch(link -> link.getLocation().getY() == referenceY);
 
-        assertEquals(COUNTER, footerYCoords.size(), FOOTER_LINK);
+        assertTrue(allAligned, FOOTER_NOT_HORIZONTAL);
+        return this;
+    }
+
+    public HomeSteps validateFooterLinksVertical() {
+        ElementsCollection links = homePage.links;
+
+        if (links.size() < 2) {
+            Assert.assertEquals(links.size(), COUNTER, FOOTER_LINK_NOT_VERTICAL);
+        }
+
+        int previousY = links.get(0).getLocation().getY();
+        for (int i = 1; i < links.size(); i++) {
+            int currentY = links.get(i).getLocation().getY();
+            if (currentY <= previousY) {
+                Assert.fail(FOOTER_LINK_NOT_VERTICAL);
+            }
+            previousY = currentY;
+        }
+
         return this;
     }
 }

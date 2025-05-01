@@ -30,8 +30,8 @@ public class UIResponsivenessTests {
 
         homeSteps.validateSearchBarVisible()
                 .validateNavBarAndBurgerMenu()
-                .validateOfferCardsInGrid(TWO_INT)
-                .validateFooterLinksAlignment();
+                .validateOfferCardsInGrid(THREE_INT)
+                .validateFooterLinksHorizontal();
     }
 
     @Test
@@ -39,8 +39,8 @@ public class UIResponsivenessTests {
         screenSteps.setViewportSize(SIZE_768, SIZE_1024);
         homeSteps.validateSearchBarIconVisible()
                 .validateNavBarAndBurgerMenuIsVisible()
-                .validateOfferCardsInGrid(THREE_INT)
-                .validateFooterLinksAlignment();
+                .validateOfferCardsInGrid(TWO_INT)
+                .validateFooterLinksHorizontal();
     }
 
     @Test
@@ -49,6 +49,6 @@ public class UIResponsivenessTests {
         homeSteps.validateSearchBarIconVisible()
                 .visibleBurgerMenu()
                 .validateOfferCardsInGrid(COUNTER)
-                .validateFooterLinksAlignment();
+                .validateFooterLinksVertical();
     }
 }
