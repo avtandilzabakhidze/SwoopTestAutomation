@@ -40,7 +40,8 @@ public class UIResponsivenessTests {
         homeSteps.validateSearchBarIconVisible()
                 .validateNavBarAndBurgerMenuIsVisible()
                 .validateOfferCardsInGrid(TWO_INT)
-                .validateFooterLinksHorizontal();
+                .validateFooterLinksHorizontal()
+                .validateNoHorizontalScroll();
     }
 
     @Test
@@ -49,6 +50,7 @@ public class UIResponsivenessTests {
         homeSteps.validateSearchBarIconVisible()
                 .visibleBurgerMenu()
                 .validateOfferCardsInGrid(COUNTER)
-                .validateFooterLinksVertical();
+                .validateFooterLinksVertical()
+                .validateNoHorizontalScroll();
     }
 }

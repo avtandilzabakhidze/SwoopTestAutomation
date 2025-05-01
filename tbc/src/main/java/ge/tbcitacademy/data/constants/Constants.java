@@ -28,9 +28,12 @@ public class Constants {
             FOOTER_LINK = "All footer links should be horizontally aligned",
             EXPECTING = "Expecting first 3 offer cards is not same row",
             PRICE_NOT_RANGE = "Price not in expected range",
+            HORIZONTAL_IS_ON = "Horizontal scroll is present",
+            HEADER_STICKY = "Header is not sticky",
             FOOTER_LINK_NOT_VERTICAL = "Footer links are not vertically aligned",
             FOOTER_NOT_HORIZONTAL = "Footer links are not horizontally",
-            LOGGER_DATA = "Number of deals found: {}";
+            LOGGER_DATA = "Number of deals found: {}",
+            SCROLL_BY = "window.scrollBy(0, 500);";
 
     public static final int NUMBER_OF_SECONDS = 15,
             COUNTER = 1,

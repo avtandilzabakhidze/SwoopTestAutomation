@@ -2,9 +2,12 @@ package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import ge.tbcitacademy.data.enums.NavElement;
 import ge.tbcitacademy.pages.HomePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 
 import java.util.List;
@@ -118,6 +121,28 @@ public class HomeSteps {
             previousY = currentY;
         }
 
+        return this;
+    }
+
+    public HomeSteps validateNoHorizontalScroll() {
+        JavascriptExecutor js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+        boolean hasHorizontalScroll = (Boolean) js.executeScript(
+                "return document.documentElement.scrollWidth > document.documentElement.clientWidth;"
+        );
+
+        Assert.assertFalse(hasHorizontalScroll, HORIZONTAL_IS_ON);
+        return this;
+    }
+
+    public HomeSteps validateStickyHeader() {
+        SelenideElement navBar = homePage.navBar;
+        int initialY = navBar.getLocation().getY();
+
+        JavascriptExecutor js = (JavascriptExecutor) WebDriverRunner.getWebDriver();
+        js.executeScript(SCROLL_BY);
+        int postScrollY = navBar.getLocation().getY();
+
+        Assert.assertEquals(postScrollY, initialY, HEADER_STICKY);
         return this;
     }
 }

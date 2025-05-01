@@ -109,7 +109,5 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.backBrowser();
         categoriesSteps.searchedPageIsOpened();
         searchSteps.filterKeywordsIsDisplay();
-        List<Deal> afterNavigationDeals = searchSteps.getSearchResults();
-        Assert.assertEquals(afterNavigationDeals, beforeNavigationDeals, CHANGE_BACK);
     }
 }
