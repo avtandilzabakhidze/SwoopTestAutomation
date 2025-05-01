@@ -28,6 +28,26 @@ public class CoreFunctionalityTests extends BaseTest {
     }
 
     @Test(priority = 1)
+    public void filterPersistenceTest() {
+        categoriesSteps.clickCategoriesButton()
+                .findCategoryByName(CategoryName.PETS)
+                .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
+
+        filterSteps.chooseAddress(Address.SABURTALO);
+        filterSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
+        categoriesSteps.searchedPageIsOpened();
+
+        List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
+        searchSteps.validateResultsWithinPriceRange(beforeNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
+
+        searchSteps.openFirst();
+        searchSteps.backBrowser();
+        categoriesSteps.searchedPageIsOpened();
+        searchSteps.filterKeywordsIsDisplay();
+        Assert.assertEquals(searchSteps.getSearchResults(), beforeNavigationDeals, CHANGE_BACK);
+    }
+
+    @Test(priority = 2)
     public void searchTest() {
         homeSteps.setSearchInput(WINE)
                 .pressSearchBtn()
@@ -44,7 +64,7 @@ public class CoreFunctionalityTests extends BaseTest {
                 .validateUrlContainsSearch();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void paginationTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.VACATION)
@@ -73,7 +93,7 @@ public class CoreFunctionalityTests extends BaseTest {
                 .paginateThroughAllPagesAndBack();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 4)
     public void numberOfGuestsTest() {
         homeSteps.findNavbarElement(NavElement.FOOD);
         filterSteps.chooseNumberOfGuests(NumberOfGuest.TWO_TO_FIVE);
@@ -81,7 +101,7 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateGuestCountInDeals(searchSteps.getSearchResults(), NumberOfGuest.TWO_TO_FIVE);
     }
 
-    @Test(priority = 4)
+    @Test(priority = 5)
     public void offerDetailsConsistencyTest() {
         categoriesSteps.clickCategoriesButton()
                 .findCategoryByName(CategoryName.PETS)
@@ -90,26 +110,5 @@ public class CoreFunctionalityTests extends BaseTest {
 
         searchSteps.openFirst();
         searchSteps.validateDealInfoConsistentIgnoringSoldAndPriceFormat(first, searchSteps.grabDetails());
-    }
-
-
-    @Test(priority = 5)
-    public void filterPersistenceTest() {
-        categoriesSteps.clickCategoriesButton()
-                .findCategoryByName(CategoryName.PETS)
-                .clickSubCategoryByName(PetSubCategory.ANIMAL_CARE);
-
-        filterSteps.chooseAddress(Address.SABURTALO);
-        filterSteps.choosePriceRange(PriceRange.ZERO_TO_HUNDRED);
-        categoriesSteps.searchedPageIsOpened();
-
-        List<Deal> beforeNavigationDeals = searchSteps.getSearchResults();
-        searchSteps.validateResultsWithinPriceRange(beforeNavigationDeals, PriceRange.ZERO_TO_HUNDRED);
-
-        searchSteps.openFirst();
-        searchSteps.backBrowser();
-        categoriesSteps.searchedPageIsOpened();
-        searchSteps.filterKeywordsIsDisplay();
-        Assert.assertEquals(searchSteps.getSearchResults(), beforeNavigationDeals, CHANGE_BACK);
     }
 }

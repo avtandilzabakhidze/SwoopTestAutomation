@@ -27,11 +27,13 @@ public class Constants {
             SCREEN_SIZE = "1920x1080",
             FOOTER_LINK = "All footer links should be horizontally aligned",
             EXPECTING = "Expecting first 3 offer cards is not same row",
-            PRICE_NOT_RANGE = "Price not in expected range";
+            PRICE_NOT_RANGE = "Price not in expected range",
+            LOGGER_DATA = "Number of deals found: {}";
 
     public static final int NUMBER_OF_SECONDS = 15,
             COUNTER = 1,
-    THREE_INT = 3,
+            THREE_INT = 3,
+            TWO_INT = 2,
             COUNTER_SEC = 10000,
             SIZE_1920 = 1920,
             SIZE_1080 = 1080,
@@ -39,4 +41,7 @@ public class Constants {
             SIZE_1024 = 1024,
             SIZE_375 = 375,
             SIZE_667 = 667;
+
+    public static final boolean IS_TRUE = true,
+            IS_FALSE = false;
 }

@@ -30,17 +30,25 @@ public class UIResponsivenessTests {
 
         homeSteps.validateSearchBarVisible()
                 .validateNavBarAndBurgerMenu()
-                .validateOfferCardsInGrid()
+                .validateOfferCardsInGrid(TWO_INT)
                 .validateFooterLinksAlignment();
     }
 
     @Test
     public void tabletResponsiveTest768x1024() {
         screenSteps.setViewportSize(SIZE_768, SIZE_1024);
+        homeSteps.validateSearchBarIconVisible()
+                .validateNavBarAndBurgerMenuIsVisible()
+                .validateOfferCardsInGrid(THREE_INT)
+                .validateFooterLinksAlignment();
     }
 
     @Test
     public void mobileResponsiveTest375x667() {
         screenSteps.setViewportSize(SIZE_375, SIZE_667);
+        homeSteps.validateSearchBarIconVisible()
+                .visibleBurgerMenu()
+                .validateOfferCardsInGrid(COUNTER)
+                .validateFooterLinksAlignment();
     }
 }

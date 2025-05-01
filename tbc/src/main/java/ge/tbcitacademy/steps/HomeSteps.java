@@ -57,15 +57,31 @@ public class HomeSteps {
         return this;
     }
 
+    public HomeSteps validateSearchBarIconVisible() {
+        homePage.searchIcon.shouldBe(visible);
+        return this;
+    }
+
+    public HomeSteps visibleBurgerMenu() {
+        homePage.burgerMenu.should(visible);
+        return this;
+    }
+
+    public HomeSteps validateNavBarAndBurgerMenuIsVisible() {
+        homePage.navBar.shouldBe(visible);
+        homePage.burgerMenu.shouldBe(visible);
+        return this;
+    }
+
     public HomeSteps validateNavBarAndBurgerMenu() {
         homePage.navBar.shouldBe(visible);
         homePage.burgerMenu.shouldNotBe(visible);
         return this;
     }
 
-    public HomeSteps validateOfferCardsInGrid() {
+    public HomeSteps validateOfferCardsInGrid(int numberOfCards) {
         List<Integer> yCoordinates = homePage.searchedProduct.stream()
-                .limit(THREE_INT)
+                .limit(numberOfCards)
                 .map(el -> el.getLocation().getY())
                 .distinct()
                 .toList();

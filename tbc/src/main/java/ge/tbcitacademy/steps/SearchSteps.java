@@ -77,11 +77,11 @@ public class SearchSteps {
             Pattern pattern = Pattern.compile(REGX_QUAN);
             Matcher matcher = pattern.matcher(combinedText);
 
-            boolean matchFound = false;
+            boolean matchFound = IS_FALSE;
             while (matcher.find()) {
                 int guestCount = Integer.parseInt(matcher.group(1));
                 if (guestCount >= guestRange.getMin() && guestCount <= guestRange.getMax()) {
-                    matchFound = true;
+                    matchFound = IS_TRUE;
                     break;
                 }
             }
@@ -91,7 +91,7 @@ public class SearchSteps {
     }
 
     public SearchSteps validateResultsNotEmpty(List<Deal> deals) {
-        logger.debug("Number of deals found: {}", deals.size());
+        logger.debug(LOGGER_DATA, deals.size());
         assertFalse(deals.isEmpty(), SEARCH_RESULT_SHOULD_NOT_EMPTY);
         return this;
     }
@@ -112,7 +112,7 @@ public class SearchSteps {
     }
 
     public SearchSteps scrollToPagination() {
-        searchResultsPage.rightArrow.scrollIntoView(true);
+        searchResultsPage.rightArrow.scrollIntoView(IS_TRUE);
         return this;
     }
 
