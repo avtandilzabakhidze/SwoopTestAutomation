@@ -8,8 +8,9 @@ import ge.tbcitacademy.data.models.Deal;
 import ge.tbcitacademy.pages.CategoryPage;
 import ge.tbcitacademy.pages.ProductDetailsPage;
 import ge.tbcitacademy.pages.SearchResultsPage;
-import lombok.Getter;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -25,56 +26,54 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class SearchSteps {
+    private static final Logger logger = LoggerFactory.getLogger(SearchSteps.class);
     SearchResultsPage searchResultsPage = new SearchResultsPage();
     ProductDetailsPage productDetail = new ProductDetailsPage();
     CategoryPage categoryPage = new CategoryPage();
 
+    private Deal parseDealFrom(SelenideElement element) {
+        String title = element.find(searchResultsPage.title).getText();
+        String description = element.find(searchResultsPage.description).getText();
+        String price = element.find(searchResultsPage.price).getText();
+        String sold = element.find(searchResultsPage.soldQuantity).getText();
+        return new Deal(title, description, price, sold);
+    }
+
+    private Deal parseDealFromProductDetails() {
+        String title = productDetail.title.getText();
+        String description = productDetail.description.getText();
+        String price = productDetail.price.getText();
+        String sold = productDetail.soldQuantity.getText();
+        return new Deal(title, description, price, sold);
+    }
+
     public List<Deal> getSearchResults() {
         return searchResultsPage.searchedProduct.stream()
-                .map(product -> {
-                    String title = product.find(searchResultsPage.title).getText();
-                    String description = product.find(searchResultsPage.description).getText();
-                    String price = product.find(searchResultsPage.price).getText();
-                    String sold = product.find(searchResultsPage.soldQuantity).getText();
-                    return new Deal(title, description, price, sold);
-                })
+                .map(this::parseDealFrom)
                 .collect(Collectors.toList());
     }
 
     public Deal findFirst() {
-        SelenideElement product = searchResultsPage.searchedProduct.first();
-
-        String title = product.find(searchResultsPage.title).getText();
-        String description = product.find(searchResultsPage.description).getText();
-        String price = product.find(searchResultsPage.price).getText();
-        String sold = product.find(searchResultsPage.soldQuantity).getText();
-
-        return new Deal(title, description, price, sold);
+        return parseDealFrom(searchResultsPage.searchedProduct.first());
     }
 
-    public SearchSteps openFirst(){
+    public SearchSteps openFirst() {
         searchResultsPage.searchedProduct.first().click();
         return this;
     }
 
-    public SearchSteps backBrowser(){
+    public SearchSteps backBrowser() {
         Selenide.back();
         return this;
     }
 
-    public Deal grabDetails(){
-        String title = productDetail.title.getText();
-        String description =productDetail.description.getText();
-        String price = productDetail.price.getText();
-        String sold = productDetail.soldQuantity.getText();
-
-        return new Deal(title, description, price, sold);
+    public Deal grabDetails() {
+        return parseDealFromProductDetails();
     }
 
     public SearchSteps validateGuestCountInDeals(List<Deal> deals, NumberOfGuest guestRange) {
         for (Deal deal : deals) {
             String combinedText = deal.getTitle() + EMPTY + deal.getDescription();
-
             Pattern pattern = Pattern.compile(REGX_QUAN);
             Matcher matcher = pattern.matcher(combinedText);
 
@@ -92,13 +91,14 @@ public class SearchSteps {
     }
 
     public SearchSteps validateResultsNotEmpty(List<Deal> deals) {
+        logger.debug("Number of deals found: {}", deals.size());
         assertFalse(deals.isEmpty(), SEARCH_RESULT_SHOULD_NOT_EMPTY);
         return this;
     }
 
     public SearchSteps validateSelectedCategory(String expectedCategory) {
         SelenideElement selectedCategory = categoryPage.selectedCategory;
-        Assert.assertEquals(selectedCategory.getText(),expectedCategory, SELECTED_CATEGORY);
+        Assert.assertEquals(selectedCategory.getText(), expectedCategory, SELECTED_CATEGORY);
         return this;
     }
 
@@ -123,17 +123,13 @@ public class SearchSteps {
         while (isRightArrowClickable()) {
             scrollToPagination();
             searchResultsPage.rightArrow.click();
-
-            activePages.add(currentPage);
-            currentPage++;
+            activePages.add(currentPage++);
         }
 
         while (isLeftArrowClickable()) {
             scrollToPagination();
             searchResultsPage.leftArrow.click();
-
-            activePages.add(currentPage);
-            currentPage--;
+            activePages.add(currentPage--);
         }
 
         return this;

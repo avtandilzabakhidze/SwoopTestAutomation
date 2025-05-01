@@ -25,9 +25,18 @@ public class Constants {
             TWO = "2",
             THREE = "3",
             SCREEN_SIZE = "1920x1080",
+            FOOTER_LINK = "All footer links should be horizontally aligned",
+            EXPECTING = "Expecting first 3 offer cards is not same row",
             PRICE_NOT_RANGE = "Price not in expected range";
 
     public static final int NUMBER_OF_SECONDS = 15,
             COUNTER = 1,
-            COUNTER_SEC = 10000;
+    THREE_INT = 3,
+            COUNTER_SEC = 10000,
+            SIZE_1920 = 1920,
+            SIZE_1080 = 1080,
+            SIZE_768 = 768,
+            SIZE_1024 = 1024,
+            SIZE_375 = 375,
+            SIZE_667 = 667;
 }
