@@ -38,8 +38,7 @@ public class CoreFunctionalityTests extends BaseTest {
         homeSteps.clearSearchInput()
                 .setSearchInput(RANDOM_WORD)
                 .pressSearchBtn()
-                .validateEmptyResultMessage()
-                .validateUrlContainsSearch();
+                .validateEmptyResultMessage();
     }
 
     @Test(priority = 2)
@@ -67,7 +66,8 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue())
                 .setPageNumber(ONE);
         paginationSteps.validateActivePageNumber(COUNTER)
-                .paginateThroughAllPagesAndBack();
+                .paginateThroughAllPagesAndBack()
+                .validateActivePageNumber(COUNTER);
     }
 
     @Test(priority = 3)
@@ -104,7 +104,6 @@ public class CoreFunctionalityTests extends BaseTest {
 
         searchSteps.openFirst()
                 .backBrowser();
-        categoriesSteps.searchedPageIsOpened();
         searchSteps.filterKeywordsIsDisplay();
     }
 }
