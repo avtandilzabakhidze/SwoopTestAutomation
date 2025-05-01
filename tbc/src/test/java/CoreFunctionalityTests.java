@@ -29,13 +29,13 @@ public class CoreFunctionalityTests extends BaseTest {
 
     @Test(priority = 1)
     public void searchTest() {
-        homeSteps.setSearchInput(WINE)
+        homeSteps.setSearchInput(SWIM)
                 .pressSearchBtn()
                 .validateUrlContainsSearch();
 
         categoriesSteps.searchedPageIsOpened();
         searchSteps.validateResultsNotEmpty(searchSteps.getSearchResults())
-                .validateResultsContainKeyword(searchSteps.getSearchResults(), WINE);
+                .validateResultsContainKeyword(searchSteps.getSearchResults(), SWIM);
 
         homeSteps.clearSearchInput()
                 .setSearchInput(RANDOM_WORD)

@@ -2,7 +2,7 @@ package ge.tbcitacademy.data.constants;
 
 public class Constants {
     public static final String BASE_URL = "https://swoop.ge",
-            WINE = "ღვინო",
+            SWIM = "ცურვ",
             RANDOM_WORD = "asldkfj",
             SEARCH = "search",
             CATEGORY = "category",
