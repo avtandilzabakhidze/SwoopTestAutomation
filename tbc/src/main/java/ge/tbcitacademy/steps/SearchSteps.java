@@ -13,14 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -108,44 +108,6 @@ public class SearchSteps {
                     || offer.getDescription().toLowerCase().contains(keyword.toLowerCase());
             assertTrue(found, KEYWORD_NOT_FOUND);
         }
-        return this;
-    }
-
-    public SearchSteps scrollToPagination() {
-        searchResultsPage.rightArrow.scrollIntoView(IS_TRUE);
-        return this;
-    }
-
-    public SearchSteps paginateThroughAllPagesAndBack() {
-        int currentPage = COUNTER;
-        List<Integer> activePages = new ArrayList<>();
-
-        while (isRightArrowClickable()) {
-            scrollToPagination();
-            searchResultsPage.rightArrow.click();
-            activePages.add(currentPage++);
-        }
-
-        while (isLeftArrowClickable()) {
-            scrollToPagination();
-            searchResultsPage.leftArrow.click();
-            activePages.add(currentPage--);
-        }
-
-        return this;
-    }
-
-    private boolean isRightArrowClickable() {
-        return $x(searchResultsPage.right_Active).exists();
-    }
-
-    private boolean isLeftArrowClickable() {
-        return $x(searchResultsPage.left_Active).exists();
-    }
-
-    public SearchSteps validateActivePageNumber(int expectedPageNumber) {
-        SelenideElement activePage = $(searchResultsPage.activePage);
-        Assert.assertEquals(activePage.getText(), String.valueOf(expectedPageNumber), ACTIVATE_PAGE_NUMBER);
         return this;
     }
 

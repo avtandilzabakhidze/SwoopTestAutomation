@@ -1,7 +1,6 @@
 package ge.tbcitacademy.steps;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import ge.tbcitacademy.data.enums.NavElement;
@@ -17,7 +16,6 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.urlContaining;
 import static ge.tbcitacademy.data.constants.Constants.*;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class HomeSteps {
     HomePage homePage = new HomePage();
@@ -58,33 +56,6 @@ public class HomeSteps {
         return this;
     }
 
-    public HomeSteps validateSearchBarVisible() {
-        homePage.searchInput.shouldBe(visible);
-        return this;
-    }
-
-    public HomeSteps validateSearchBarIconVisible() {
-        homePage.searchIcon.shouldBe(visible);
-        return this;
-    }
-
-    public HomeSteps visibleBurgerMenu() {
-        homePage.burgerMenu.should(visible);
-        return this;
-    }
-
-    public HomeSteps validateNavBarAndBurgerMenuIsVisible() {
-        homePage.navBar.shouldBe(visible);
-        homePage.burgerMenu.shouldBe(visible);
-        return this;
-    }
-
-    public HomeSteps validateNavBarAndBurgerMenu() {
-        homePage.navBar.shouldBe(visible);
-        homePage.burgerMenu.shouldNotBe(visible);
-        return this;
-    }
-
     public HomeSteps validateOfferCardsInGrid(int numberOfCards) {
         List<Integer> yCoordinates = homePage.searchedProduct.stream()
                 .limit(numberOfCards)
@@ -93,30 +64,6 @@ public class HomeSteps {
                 .toList();
 
         assertEquals(COUNTER, yCoordinates.size(), EXPECTING);
-        return this;
-    }
-
-    public HomeSteps validateFooterLinksHorizontal() {
-        int referenceY = homePage.searchedProduct.get(0).getLocation().getY();
-        boolean allAligned = homePage.searchedProduct.stream()
-                .allMatch(el -> el.getLocation().getY() == referenceY);
-
-        assertTrue(allAligned, FOOTER_NOT_HORIZONTAL);
-        return this;
-    }
-
-    public HomeSteps validateFooterLinksVertical() {
-        ElementsCollection elements = homePage.searchedProduct;
-
-        int previousY = elements.get(0).getLocation().getY();
-        for (int i = 1; i < elements.size(); i++) {
-            int currentY = elements.get(i).getLocation().getY();
-            if (currentY <= previousY) {
-                Assert.fail(FOOTER_LINK_NOT_VERTICAL);
-            }
-            previousY = currentY;
-        }
-
         return this;
     }
 

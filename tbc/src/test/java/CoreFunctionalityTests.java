@@ -1,9 +1,6 @@
 import ge.tbcitacademy.data.enums.*;
 import ge.tbcitacademy.data.models.Offer;
-import ge.tbcitacademy.steps.CategorySteps;
-import ge.tbcitacademy.steps.FilterSteps;
-import ge.tbcitacademy.steps.HomeSteps;
-import ge.tbcitacademy.steps.SearchSteps;
+import ge.tbcitacademy.steps.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,6 +13,7 @@ public class CoreFunctionalityTests extends BaseTest {
     private SearchSteps searchSteps;
     private CategorySteps categoriesSteps;
     private FilterSteps filterSteps;
+    private PaginationSteps paginationSteps;
 
     @BeforeMethod
     public void setUp() {
@@ -23,6 +21,7 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps = new SearchSteps();
         categoriesSteps = new CategorySteps();
         filterSteps = new FilterSteps();
+        paginationSteps = new PaginationSteps();
         homeSteps.openHomePage();
     }
 
@@ -66,8 +65,8 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.validateDealsAreDifferent(page2Offers, page3Offers);
 
         searchSteps.validateSelectedCategory(RestSubCategory.KAKHETI.getValue())
-                .setPageNumber(ONE)
-                .validateActivePageNumber(COUNTER)
+                .setPageNumber(ONE);
+        paginationSteps.validateActivePageNumber(COUNTER)
                 .paginateThroughAllPagesAndBack();
     }
 
