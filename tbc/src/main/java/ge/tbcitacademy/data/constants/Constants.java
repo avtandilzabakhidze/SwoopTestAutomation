@@ -24,6 +24,7 @@ public class Constants {
             TWO = "2",
             THREE = "3",
             SCREEN_SIZE = "1920x1080",
+            EXPECTED_FILTER = "Expected location filter not shown",
             EXPECTING = "Expecting first 3 offer cards is not same row",
             PRICE_NOT_RANGE = "Price not in expected range",
             HORIZONTAL_IS_ON = "Horizontal scroll is present",

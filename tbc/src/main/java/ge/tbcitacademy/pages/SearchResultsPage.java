@@ -9,7 +9,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.xpath;
 
 public class SearchResultsPage {
-    public ElementsCollection searchedProduct = $$(xpath("//a[contains(@href,'/offers/')]"));
+    public ElementsCollection searchedProduct = $$(xpath("//a[contains(@href,'/offers/')]")),
+            choseData = $$(By.xpath("//p[@class=\"text-primary_black-100-value text-md leading-5 font-tbcx-medium\"]"));
     public By searchedFilters = xpath("//p[contains(@class,\"text-primary_black-100-value text-md leading-5 font-tbcx-medium\")]");
 
     public By title = xpath(".//h4"),

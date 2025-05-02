@@ -149,4 +149,19 @@ public class SearchSteps {
         }
         return this;
     }
+
+    public SearchSteps validateFilterLabels(String expectedLocation, String expectedPriceLabel) {
+        List<String> actualFilters = searchResultsPage.choseData.texts();
+        System.out.println(actualFilters);
+
+        boolean locationFound = actualFilters.stream()
+                .anyMatch(text -> text.contains(expectedLocation));
+        boolean priceFound = actualFilters.stream()
+                .anyMatch(text -> text.contains(expectedPriceLabel));
+
+        assertTrue(locationFound, EXPECTED_FILTER);
+        assertTrue(priceFound, EXPECTED_FILTER);
+
+        return this;
+    }
 }
