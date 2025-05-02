@@ -108,6 +108,5 @@ public class CoreFunctionalityTests extends BaseTest {
         searchSteps.filterKeywordsIsDisplay();
         List<Offer> afterNavigationOffers = searchSteps.getSearchResults();
         searchSteps.validateResultsWithinPriceRange(afterNavigationOffers, PriceRange.ZERO_TO_HUNDRED);
-//        searchSteps.validateFilterLabels(Address.SABURTALO.getValue(), PriceRange.ZERO_TO_HUNDRED.getValue()); //ბექის ღილაკზე ერთ ლოკატორს აგდებს ამიტომ fail-ია ეს მეთოდი
     }
 }
